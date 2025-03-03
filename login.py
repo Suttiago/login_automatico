@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 login_unipar = os.getenv("LOGIN_UNIPAR")
 senha_unipar = os.getenv("SENHA_UNIPAR")
-
+    
 email = os.getenv("LOGIN_EMAIL")
 senha = os.getenv("SENHA_EMAIL")
 
@@ -33,6 +33,7 @@ prefs = {
 }
 
 options.add_experimental_option("prefs", prefs)
+options.add_argument("--headless")
 driver = webdriver.Chrome(options= options, service= service)
 driver.maximize_window()
 
@@ -71,20 +72,18 @@ def verificar_dowload(pasta, timeout = 30):
 
 
 def enviar_email():
-
-   
-
     #configuração email
     ms = MIMEMultipart()
     ms ['From'] = email
-    ms ['To'] = email
-    ms ['Subeject'] = "assunto"
+    ms ['To'] = 'tiagobsversut@gmail.com'
+    ms ['Subject'] = "assunto"
 
     arquivo_baixado = verificar_dowload(diretorio, timeout=30)
     if arquivo_baixado:
         part = MIMEBase('application', 'octet-stream')
+        with open(arquivo_baixado, 'rb') as file:
+            part.set_payload(file.read())
         encoders.encode_base64(part)
-        part.set_payload(open(diretorio, 'rb').read())
         part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(diretorio)}')
         ms.attach(part)
 
@@ -92,7 +91,7 @@ def enviar_email():
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
         server.login(email, senha)
-        server.sendmail(email, email, ms.as_string())
+        server.sendmail(email, ms.as_string())
         server.quit()
         print('E-mail enviado com sucesso!')
     except Exception as e:
@@ -104,20 +103,4 @@ def enviar_email():
 inserir_dados(driver)
 pegar_historico()
 enviar_email()
- #ENTENDER ISSO
-
-# def verificar_download(pasta, timeout=30):
-
-#    end_time = time.time() + timeout
-
-#    while time.time() < end_time:
-
-#        for filename in os.listdir(pasta):
-
-#            if filename.endswith(".pdf"):  # Substitua pela extensão do arquivo baixado
-
-#                return os.path.join(pasta, filename)
-
-#        time.sleep(1)
-
-#    return None
+ 
