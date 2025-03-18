@@ -93,7 +93,7 @@ python main.py
 → Atualize baixando a versão correta [aqui](https://chromedriver.chromium.org/downloads).  
 
 🔸 **Login falhou?**  
-→ Verifique seu **usuário/senha** e possíveis **mudanças no portal da UNIPAR**.  
+→ Verifique seu **usuário/senha** e possíveis **mudanças no portal da sua faculdade*.  
 
 🔸 **O e-mail não foi enviado?**  
 → Confirme que as permissões de envio de e-mail estão ativadas no seu provedor.  
